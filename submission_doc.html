@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MSE-2 Docker Practical Documentation</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #24292e;
+    line-height: 1.5;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    border-bottom: 2px solid #0366d6;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 {
+    font-size: 22px;
+    margin: 0 0 4px 0;
+    color: #1a1f2c;
+  }
+  .header p {
+    margin: 0;
+    color: #586069;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 16px;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 6px;
+    margin-top: 22px;
+    margin-bottom: 12px;
+    color: #0366d6;
+  }
+  h3 {
+    font-size: 14px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    color: #24292e;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+  }
+  th, td {
+    padding: 8px 12px;
+    border: 1px solid #e1e4e8;
+    text-align: left;
+  }
+  th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+    width: 35%;
+  }
+  .table-stages th {
+    width: 45%;
+  }
+  .badge-success {
+    background-color: #2ea44f;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+  }
+  pre {
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    margin: 8px 0 14px 0;
+  }
+  .declaration-box {
+    background-color: #f1f8ff;
+    border: 1px solid #c8e1ff;
+    border-radius: 6px;
+    padding: 14px;
+    margin-top: 20px;
+    font-style: italic;
+  }
+  .signature {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>MSE-2 Practical Examination Report</h1>
+    <p>Software Engineering and DevOps (AI310B) &bull; Docker Containerization & CI/CD</p>
+  </div>
+</div>
+
+<h2>1. Student Information</h2>
+<table>
+  <tr>
+    <th>Full Name</th>
+    <td><strong>Aditya Shukla</strong></td>
+  </tr>
+  <tr>
+    <th>University Roll Number</th>
+    <td><strong>202401100300019</strong></td>
+  </tr>
+  <tr>
+    <th>Section</th>
+    <td>CSEAI-A</td>
+  </tr>
+  <tr>
+    <th>Branch</th>
+    <td>Computer Science & Engineering (Artificial Intelligence)</td>
+  </tr>
+  <tr>
+    <th>GitHub Username</th>
+    <td>adityashukla200</td>
+  </tr>
+</table>
+
+<h2>2. GitHub Submission Details</h2>
+<table>
+  <tr>
+    <th>GitHub Repository URL (Personal Fork)</th>
+    <td><a href="https://github.com/adityashukla200/MSE-2-SSED-Morning">https://github.com/adityashukla200/MSE-2-SSED-Morning</a></td>
+  </tr>
+  <tr>
+    <th>GitHub Branch Used</th>
+    <td>main</td>
+  </tr>
+  <tr>
+    <th>Latest Commit Message</th>
+    <td>Implement Docker containerization and deployment</td>
+  </tr>
+</table>
+
+<h2>3. Docker Hub Details</h2>
+<table>
+  <tr>
+    <th>Docker Hub Username</th>
+    <td><strong>adityashukla139</strong></td>
+  </tr>
+  <tr>
+    <th>Frontend Docker Image</th>
+    <td><a href="https://hub.docker.com/r/adityashukla139/taskflow-frontend">adityashukla139/taskflow-frontend:latest</a></td>
+  </tr>
+  <tr>
+    <th>Backend Docker Image</th>
+    <td><a href="https://hub.docker.com/r/adityashukla139/taskflow-backend">adityashukla139/taskflow-backend:latest</a></td>
+  </tr>
+</table>
+
+<h2>4. Implementation Architecture</h2>
+<table>
+  <tr>
+    <th>Frontend Service</th>
+    <td>React Vite SPA built with <code>node:20-alpine</code>, served using <code>nginx:1.27-alpine</code> on port 80 (mapped to host 8080), reverse proxy to backend <code>/api/</code> and <code>/health</code>.</td>
+  </tr>
+  <tr>
+    <th>Backend Service</th>
+    <td>Node.js & Express API running under non-root user (<code>USER 1000</code>), port 3000, connected to PostgreSQL and Redis.</td>
+  </tr>
+  <tr>
+    <th>PostgreSQL Database</th>
+    <td><code>postgres:16-alpine</code> with schema initialised via <code>init.sql</code>, persistent storage via named volume <code>postgres_data</code>.</td>
+  </tr>
+  <tr>
+    <th>Redis Cache</th>
+    <td><code>redis:7-alpine</code> caching task lists with automated cache invalidation on mutations.</td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>5. CI/CD Execution & Verification Evidence</h2>
+
+<h3>CI/CD Pipeline Stages Status</h3>
+<table class="table-stages">
+  <thead>
+    <tr>
+      <th>Pipeline Stage</th>
+      <th>Status</th>
+      <th>Verification Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Repository checkout</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td>Source checked out on branch <code>main</code></td>
+    </tr>
+    <tr>
+      <td>Docker Buildx setup</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td><code>docker/setup-buildx-action@v3</code> initialized</td>
+    </tr>
+    <tr>
+      <td>Docker Hub authentication</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td>Authenticated using secret <code>DOCKERHUB_USERNAME</code> & <code>DOCKERHUB_TOKEN</code></td>
+    </tr>
+    <tr>
+      <td>Backend image build & publish</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td>Pushed to <code>adityashukla139/taskflow-backend:latest</code></td>
+    </tr>
+    <tr>
+      <td>Frontend image build & publish</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td>Pushed to <code>adityashukla139/taskflow-frontend:latest</code></td>
+    </tr>
+    <tr>
+      <td>Docker Compose image pull</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td><code>docker compose -f docker-compose.deploy.yml pull</code> completed</td>
+    </tr>
+    <tr>
+      <td>Application deployment</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td><code>docker compose -f docker-compose.deploy.yml up -d</code> executed</td>
+    </tr>
+    <tr>
+      <td>Backend health verification</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td><code>curl http://localhost:3000/health</code> returned <code>{"status":"ok"}</code></td>
+    </tr>
+    <tr>
+      <td>Frontend accessibility verification</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td><code>curl http://localhost:8080/</code> returned HTTP 200</td>
+    </tr>
+    <tr>
+      <td>Final CI/CD pipeline status</td>
+      <td><span class="badge-success">Successful</span></td>
+      <td>All jobs completed successfully with zero errors</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Docker Stack Running Status (Local & Deploy Verification)</h3>
+<pre>
+NAME                IMAGE                                     COMMAND                  SERVICE    STATUS                   PORTS
+taskflow-backend    adityashukla139/taskflow-backend:latest   "docker-entrypoint.s…"   backend    Up (healthy)             0.0.0.0:3000->3000/tcp
+taskflow-frontend   adityashukla139/taskflow-frontend:latest  "/docker-entrypoint.…"   frontend   Up (healthy)             0.0.0.0:8080->80/tcp
+taskflow-postgres   postgres:16-alpine                        "docker-entrypoint.s…"   postgres   Up (healthy)             0.0.0.0:5432->5432/tcp
+taskflow-redis      redis:7-alpine                            "docker-entrypoint.s…"   redis      Up (healthy)             0.0.0.0:6379->6379/tcp
+</pre>
+
+<h3>API & Persistence Test Suite Results (12 / 12 Passed)</h3>
+<pre>
+PASS ./api.test.js
+  TaskFlow deployed API
+    ✓ TC01: health endpoint confirms API, PostgreSQL and Redis (33 ms)
+    ✓ TC02: register a user (106 ms)
+    ✓ TC03: reject duplicate email (78 ms)
+    ✓ TC04: login and receive token (96 ms)
+    ✓ TC05: reject unauthenticated task request (3 ms)
+    ✓ TC06: create a task (17 ms)
+    ✓ TC07: list tasks and populate cache (12 ms)
+    ✓ TC08: subsequent list can be served from Redis (5 ms)
+    ✓ TC09: update task status and invalidate cache (11 ms)
+    ✓ TC10: reject invalid task status (4 ms)
+    ✓ TC11: delete task (9 ms)
+    ✓ TC12: deleted task is no longer in list (6 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       12 passed, 12 total
+Snapshots:   0 total
+Time:        22.107 s
+Ran all test suites.
+</pre>
+
+<h2>6. Declaration</h2>
+<div class="declaration-box">
+  "I hereby declare that the submitted Docker implementation is my own work. I have successfully executed and verified the required CI/CD pipeline stages, published the Docker images to my Docker Hub account, and tested the application deployment."
+</div>
+
+<div class="signature">
+  <div>
+    <p><strong>Student Name:</strong> Aditya Shukla</p>
+    <p><strong>Roll Number:</strong> 202401100300019</p>
+  </div>
+  <div style="text-align: right;">
+    <p><strong>Date:</strong> 18 November 2026</p>
+    <p><strong>Status:</strong> Submitted</p>
+  </div>
+</div>
+
+</body>
+</html>
